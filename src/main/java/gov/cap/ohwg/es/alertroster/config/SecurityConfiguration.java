@@ -1,5 +1,7 @@
 package gov.cap.ohwg.es.alertroster.config;
 
+import gov.cap.ohwg.es.alertroster.config.security.AuthoritiesConstants;
+import gov.cap.ohwg.es.alertroster.config.security.GaeAuthenticationFilter;
 import gov.cap.ohwg.es.alertroster.config.security.GoogleAccountsAuthenticationEntryPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -17,9 +20,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    private static Logger LOG = LoggerFactory.getLogger(SecurityConfiguration.class);
 //
 //    private static String ctLogoutUrl;
-//
-//    @Autowired
-//    private GoogleAccountsAuthenticationEntryPoint googleAuth;
+
+    @Autowired
+    private GoogleAccountsAuthenticationEntryPoint googleAuth;
+
+    @Autowired
+    private GaeAuthenticationFilter googleFilter;
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -29,18 +35,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    }
 
     // @formatter:off
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//            .csrf()
-//                .disable()
-//            .headers()
-//                .frameOptions().sameOrigin()
-//                .and()
-//            .authorizeRequests()
-//                .anyRequest().anonymous()
-//                .antMatchers("app/img/**").anonymous()
-//                .anyRequest().authenticated()
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf()
+                .disable()
+            .headers()
+                .frameOptions().sameOrigin()
+                .and()
+            .addFilterBefore(googleFilter, BasicAuthenticationFilter.class)
+            .authorizeRequests()
+                .antMatchers("app/img/**").anonymous()
+                .anyRequest().fullyAuthenticated()
 //                .antMatchers("/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
 //                .and()
 //            .formLogin()
@@ -49,12 +55,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //            .logout()
 //                .deleteCookies(Constants.COOKIE_NAME)
 //                .permitAll()
-//                .and()
-//            .exceptionHandling()
-//                .authenticationEntryPoint(googleAuth)
-// ;
-//
-//    }
+                .and()
+            .exceptionHandling()
+                .authenticationEntryPoint(googleAuth)
+ ;
+
+    }
     // @formatter:on
 
     /**
