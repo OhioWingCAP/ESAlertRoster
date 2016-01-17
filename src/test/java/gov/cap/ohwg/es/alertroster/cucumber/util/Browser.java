@@ -6,14 +6,11 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,10 +38,10 @@ public class Browser extends EventFiringWebDriver {
     private static WebDriver getRealDriver() {
         if (REAL_DRIVER == null) {
             String browser = System.getProperty("BROWSER");
-            if(browser == null) {
+            if (browser == null) {
                 browser = "chrome";
             }
-            switch(browser) {
+            switch (browser) {
                 case "chrome":
                     REAL_DRIVER = new ChromeDriver();
                     break;
@@ -75,9 +72,8 @@ public class Browser extends EventFiringWebDriver {
     public static WebElement waitFor(WebDriver driver, final By by, long seconds) {
         WebDriverWait wait = new WebDriverWait(driver, seconds);
         wait.until(new ExpectedCondition<Boolean>() {
-            @Nullable
             @Override
-            public Boolean apply(@Nullable WebDriver driver) {
+            public Boolean apply(WebDriver driver) {
                 WebElement element = driver.findElement(by);
                 return element != null;
             }
@@ -102,4 +98,5 @@ public class Browser extends EventFiringWebDriver {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-    }}
+    }
+}

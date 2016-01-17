@@ -1,39 +1,59 @@
 buildscript {
 	ext {
 		springBootVersion = '1.3.1.RELEASE'
+		appEngineVersion = '1.9.31'
 	}
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "com.google.appengine:gradle-appengine-plugin:1.9.30"
 	}
 }
 apply from: 'cucumber.gradle'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+apply plugin: 'appengine'
+apply plugin: 'war'
 
 jar {
 	baseName = 'alertroster'
 	version = '0.0.1-SNAPSHOT'
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
 	mavenCentral()
 }
 
+appengine {
+    httpPort = 8080
+
+    appcfg {
+        email = 'christopher.kovacs@ohwg.cap.gov'
+        passIn = true
+        downloadSdk = true
+
+        logs {
+            severity = 1
+            outputFile = file('alertroster.log')
+        }
+
+        app {
+            id = 'es-alert-roster'
+        }
+    }
+}
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('com.h2database:h2')
-	runtime('mysql:mysql-connector-java')
+    compile 'org.springframework.boot:spring-boot-legacy:1.0.2.RELEASE'
+    providedCompile('javax.servlet:servlet-api:2.5')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
 	// Junit / spring test compile
@@ -46,15 +66,19 @@ dependencies {
 	testCompile "org.mockito:mockito-core:1.+"
 	testCompile "org.powermock:powermock-mockito-release-full:1.6.3"
 	testCompile 'info.cukes:cucumber-junit:1.2.4'
+
+    providedCompile "com.google.appengine:appengine-api-1.0-sdk:${appEngineVersion}"
+
+	appengineSdk "com.google.appengine:appengine-java-sdk:${appEngineVersion}"
 }
 
-
-eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
-}
+//
+//eclipse {
+//	classpath {
+//		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+//		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+//	}
+//}
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.9'
