@@ -14,7 +14,7 @@ public final class Constants {
     public static final String SYSTEM_ACCOUNT = "system";
     public static final String SPRING_PROFILE_TEST = "test";
 
-    public static final String COOKIE_NAME = "JSESSIONID_EDISCOUNT";
+    public static final String COOKIE_NAME = "JSESSIONID_ESALERT";
 
     private Constants() {
     }

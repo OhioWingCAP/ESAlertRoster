@@ -1,14 +1,44 @@
 package gov.cap.ohwg.es.alertroster;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
+import org.springframework.boot.legacy.context.web.MetricFilterAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@SpringBootApplication
+//@SpringBootApplication(
+//        exclude = {
+//                JmxAutoConfiguration.class,
+//                MetricFilterAutoConfiguration.class,
+//                DataSourceAutoConfiguration.class
+//        },
+//        scanBasePackages = {"gov.cap.ohwg.es.alertroster"}
+//)
+@Configuration
 @ComponentScan(basePackages = {"gov.cap.ohwg.es.alertroster"})
+@EnableWebMvc
+@EnableAutoConfiguration(
+        exclude = {
+                JmxAutoConfiguration.class,
+                MetricFilterAutoConfiguration.class,
+                DataSourceAutoConfiguration.class
+        }
+)
 public class OhwgEsAlertRosterApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OhwgEsAlertRosterApplication.class, args);
-	}
+    @Bean(name = "multipartResolver")
+    public StandardServletMultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
 }
