@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<label>Search: <input ng-model="searchText"></label>
+<table><tr ng-repeat="unit in units | orderBy:'charter' | filter:searchText">
+    <td>{{unit.charter}}</td><td>{{unit.name}}</td>
+</tr>
+</table>

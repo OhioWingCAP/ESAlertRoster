@@ -1,50 +1,22 @@
-package gov.cap.ohwg.es.alertroster;
+package gov.cap.ohwg.es.alertroster.config;
 
 import gov.cap.ohwg.es.alertroster.model.entity.Unit;
 import gov.cap.ohwg.es.alertroster.model.repo.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.boot.legacy.context.web.MetricFilterAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
-@SpringBootApplication(
-        exclude = {
-                JmxAutoConfiguration.class,
-                MetricFilterAutoConfiguration.class,
-                DataSourceAutoConfiguration.class
-        }
-)
-@EnableWebMvc
-@ComponentScan(basePackages = {"gov.cap.ohwg.es.alertroster"})
-public class OhwgEsAlertRosterApplication {
-
+/**
+ * Created by ckovacs on 4/23/16.
+ */
+@Component
+public class ApplicationEventListener implements ApplicationListener<ApplicationStartedEvent> {
     @Autowired
     private UnitRepo unitRepo;
 
-    @Bean(name = "multipartResolver")
-    public StandardServletMultipartResolver multipartResolver() {
-        return new StandardServletMultipartResolver();
-    }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    @PostConstruct
-    public void onApplicationEvent() {
-        unitRepo.deleteAll();
+    @Override
+    public void onApplicationEvent(ApplicationStartedEvent event) {
         unitRepo.save(new Unit("58","Headquarters, Group IV","1"));
         unitRepo.save(new Unit("0","OHIO RESERVE SQUADRON","1"));
         unitRepo.save(new Unit("156","WARREN COUNTY CADET SQDN","44"));

@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.3.1.RELEASE'
+		springBootVersion = '1.2.8.RELEASE'
 		appEngineVersion = '1.9.31'
 	}
 	repositories {
@@ -67,7 +67,7 @@ dependencies {
 	testCompile "org.powermock:powermock-mockito-release-full:1.6.3"
 	testCompile 'info.cukes:cucumber-junit:1.2.4'
 
-    providedCompile "com.google.appengine:appengine-api-1.0-sdk:${appEngineVersion}"
+    compile "com.google.appengine:appengine-api-1.0-sdk:${appEngineVersion}"
 
 	appengineSdk "com.google.appengine:appengine-java-sdk:${appEngineVersion}"
 }

@@ -2,6 +2,7 @@ package gov.cap.ohwg.es.alertroster.config.security;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserServiceFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,8 @@ import java.io.IOException;
 public class GaeAuthenticationFilter extends GenericFilterBean {
     private static final String REGISTRATION_URL = "/register.htm";
     private AuthenticationDetailsSource ads = new WebAuthenticationDetailsSource();
-    private AuthenticationManager authenticationManager;
+    @Autowired
+    private GoogleAccountsAuthenticationProvider authenticationManager;
     private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -62,10 +64,6 @@ public class GaeAuthenticationFilter extends GenericFilterBean {
         }
 
         chain.doFilter(request, response);
-    }
-
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
     }
 
     public void setFailureHandler(AuthenticationFailureHandler failureHandler) {

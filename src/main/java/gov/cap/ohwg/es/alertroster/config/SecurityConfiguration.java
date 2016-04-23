@@ -1,17 +1,25 @@
 package gov.cap.ohwg.es.alertroster.config;
 
-import gov.cap.ohwg.es.alertroster.config.security.AuthoritiesConstants;
 import gov.cap.ohwg.es.alertroster.config.security.GaeAuthenticationFilter;
 import gov.cap.ohwg.es.alertroster.config.security.GoogleAccountsAuthenticationEntryPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import gov.cap.ohwg.es.alertroster.config.security.GoogleAccountsAuthenticationProvider;
+import gov.cap.ohwg.es.alertroster.service.user.GaeDatastoreUserRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private GoogleAccountsAuthenticationEntryPoint googleAuth;
 
     @Autowired
-    private GaeAuthenticationFilter googleFilter;
+    private GoogleAccountsAuthenticationProvider gaeAuthenticationProvider;
+
+    @Autowired
+    private GaeDatastoreUserRegistry gaeDatastoreUserRegistry;
+
+    @Autowired
+    private GaeAuthenticationFilter gaeAuthenticationFilter;
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,23 +48,46 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .password("THrQ;3E8f#4vcKF").roles("group1esofficer");
 //    }
 
+
+    @Bean
+    public AuthenticationProvider getAuthenticationProvider() {
+        return gaeAuthenticationProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+        auth.authenticationProvider(gaeAuthenticationProvider);
+    }
+
+    @Bean(name = "authenticationUserDetailsService")
+    public AuthenticationUserDetailsService getAuthenticationUserDetailsService() {
+        return new UserDetailsByNameServiceWrapper(gaeDatastoreUserRegistry);
+    }
+
+
     // @formatter:off
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        gaeAuthenticationProvider.setPreAuthenticatedUserDetailsService(gaeDatastoreUserRegistry);
         http
             .csrf()
                 .disable()
-            .headers()
-                .frameOptions().sameOrigin()
-                .and()
-            .addFilterBefore(googleFilter, BasicAuthenticationFilter.class)
-            .authorizeRequests()
-                .antMatchers("app/img/**").anonymous()
-                .anyRequest().fullyAuthenticated()
-//                .antMatchers("/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+//            .headers()
+//                .frameOptions().sameOrigin()
 //                .and()
-//            .formLogin()
-//                .permitAll()
+//            .authenticationProvider(gaeAuthenticationProvider)
+//            .userDetailsService(gaeDatastoreUserRegistry)
+//            .addFilterBefore(gaeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .authorizeRequests()
+                .antMatchers("app/img/**").permitAll()
+                .antMatchers("/_ah/login").permitAll()
+//                .antMatchers("/secure/*").authenticated()
+                .anyRequest().permitAll()
+//                .antMatchers("/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .and()
+            .formLogin()
+                .permitAll()
 //                .and()
 //            .logout()
 //                .deleteCookies(Constants.COOKIE_NAME)
