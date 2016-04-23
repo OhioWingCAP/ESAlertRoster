@@ -7,11 +7,14 @@ import gov.cap.ohwg.es.alertroster.service.user.GaeDatastoreUserRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -54,10 +57,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return gaeAuthenticationProvider;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
-        auth.authenticationProvider(gaeAuthenticationProvider);
+    @Bean
+    public AuthenticationManager getAuthenticationManager () {
+        return new AuthenticationManager() {
+            @Override
+            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                return gaeAuthenticationProvider.authenticate(authentication);
+            }
+
+        };
     }
 
     @Bean(name = "authenticationUserDetailsService")
@@ -76,14 +84,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //            .headers()
 //                .frameOptions().sameOrigin()
 //                .and()
-//            .authenticationProvider(gaeAuthenticationProvider)
+            .authenticationProvider(gaeAuthenticationProvider)
 //            .userDetailsService(gaeDatastoreUserRegistry)
-//            .addFilterBefore(gaeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(gaeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
                 .antMatchers("app/img/**").permitAll()
                 .antMatchers("/_ah/login").permitAll()
-//                .antMatchers("/secure/*").authenticated()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
 //                .antMatchers("/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .and()
             .formLogin()

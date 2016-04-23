@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by ckovacs on 4/23/16.
  */
-public class Unit {
+public class Unit implements Identifiable {
     private String charter;
     private String name;
     private String parentCharter;
@@ -60,5 +60,10 @@ public class Unit {
 
     public void setParentCharter(String parentCharter) {
         this.parentCharter = parentCharter;
+    }
+
+    @Override
+    public String getId() {
+        return charter;
     }
 }

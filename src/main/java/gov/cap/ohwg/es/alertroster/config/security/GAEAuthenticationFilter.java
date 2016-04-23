@@ -31,7 +31,7 @@ public class GaeAuthenticationFilter extends GenericFilterBean {
     private static final String REGISTRATION_URL = "/register.htm";
     private AuthenticationDetailsSource ads = new WebAuthenticationDetailsSource();
     @Autowired
-    private GoogleAccountsAuthenticationProvider authenticationManager;
+    private AuthenticationManager authenticationManager;
     private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

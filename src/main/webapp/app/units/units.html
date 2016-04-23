@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<label>Search: <input ng-model="searchText"></label>
+<label>Search: <input ng-model="searchText" size="50"></label>
 <table><tr ng-repeat="unit in units | orderBy:'charter' | filter:searchText">
-    <td>{{unit.charter}}</td><td>{{unit.name}}</td>
+    <td><a ui-sref="unit({id: unit.charter})">{{unit.charter}}</a></td><td><a ui-sref="unit({id: unit.charter})">{{unit.name}}</a></td>
+    <td ng-hide="units">Loading...</td>
 </tr>
 </table>

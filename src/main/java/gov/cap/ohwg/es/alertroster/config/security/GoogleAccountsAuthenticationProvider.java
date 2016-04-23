@@ -29,9 +29,17 @@ public class GoogleAccountsAuthenticationProvider extends PreAuthenticatedAuthen
     }
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        User googleUser = (User) authentication.getPrincipal();
-
-        GaeUser user = userRegistry.findUser(googleUser.getUserId());
+        Object principal = authentication.getPrincipal();
+        User googleUser = null;
+        GaeUser user = null;
+        if(principal instanceof User) {
+            googleUser = (User)authentication.getPrincipal();
+            if(googleUser != null) {
+                userRegistry.findUser(googleUser.getUserId());
+            }
+        } else if (principal instanceof GaeUser) {
+            user = (GaeUser)principal;
+        }
 
         if (user == null) {
             // User not in registry. Needs to register

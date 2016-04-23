@@ -1,5 +1,6 @@
 <%@ page import="org.springframework.security.core.userdetails.User" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %><%--
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="gov.cap.ohwg.es.alertroster.model.pojo.GaeUser" %><%--
   Created by IntelliJ IDEA.
   User: ckovacs
   Date: 1/17/16
@@ -12,7 +13,9 @@
     <title>Title</title>
 </head>
 <body>
-<%String user = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();%>
+<%
+    GaeUser gaeUser = (GaeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    String user = gaeUser.getEmail();%>
 <%=user%>
 </body>
 </html>

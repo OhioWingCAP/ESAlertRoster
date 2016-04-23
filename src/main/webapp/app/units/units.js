@@ -10,7 +10,12 @@
                     url: '/units',
                     templateUrl: 'app/units/units.html',
                     controller: 'UnitsController'
-                });
+                })
+                .state('unit', {
+                    url: '/units/{id}',
+                    templateUrl: 'app/units/unit.html',
+                    controller: 'UnitController'
+            });
         }]); // EditRequestNavigation
 
 })(); // IIFE

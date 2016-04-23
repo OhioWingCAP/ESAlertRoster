@@ -10,4 +10,12 @@
                     $scope.units=Unit.query();
                 }]); // UnitsController
 
+    angular
+        .module('esAlertRoster')
+        .controller('UnitController',
+            ["$scope", "$window", "$state", "$stateParams", "Unit",
+                function ($scope, $window, $state, $stateParams, Unit) {
+                    $scope.unit=Unit.get({id: $stateParams.id});
+                }]); // UnitsController
+
 })(); // IIFE

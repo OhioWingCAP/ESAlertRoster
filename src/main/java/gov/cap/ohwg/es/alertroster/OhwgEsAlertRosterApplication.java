@@ -1,6 +1,7 @@
 package gov.cap.ohwg.es.alertroster;
 
 import gov.cap.ohwg.es.alertroster.model.entity.Unit;
+import gov.cap.ohwg.es.alertroster.model.repo.GenericRepo;
 import gov.cap.ohwg.es.alertroster.model.repo.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -29,8 +30,7 @@ import javax.annotation.PostConstruct;
 @ComponentScan(basePackages = {"gov.cap.ohwg.es.alertroster"})
 public class OhwgEsAlertRosterApplication {
 
-    @Autowired
-    private UnitRepo unitRepo;
+    private GenericRepo<Unit> unitRepo = new GenericRepo<>(Unit.class);
 
     @Bean(name = "multipartResolver")
     public StandardServletMultipartResolver multipartResolver() {
@@ -44,7 +44,6 @@ public class OhwgEsAlertRosterApplication {
 
     @PostConstruct
     public void onApplicationEvent() {
-        unitRepo.deleteAll();
         unitRepo.save(new Unit("58","Headquarters, Group IV","1"));
         unitRepo.save(new Unit("0","OHIO RESERVE SQUADRON","1"));
         unitRepo.save(new Unit("156","WARREN COUNTY CADET SQDN","44"));

@@ -1,0 +1,15 @@
+<table>
+    <tr><td>Charter</td><td><input ng-model="unit.charter"></td></tr>
+    <tr><td>Name</td><td><input ng-model="unit.name" size="50"></td></tr>
+</table>
+<p class="sectionHeader">Alert Roster</p>
+<table>
+    <tr ng-repeat="person in unit.alertRoster">
+        <td>{{person.lastname}}></td>
+        <td>{{person.firstName}}</td>
+        <td>{{person.grade}}</td>
+        <td>{{person.capid}}</td>
+        <td>{{person.charter}}</td>
+        <td><p ng-repeat="phone in person.phoneNumbers">{{phone.type}} {{phone.phoneNumber}}</p></td>
+    </tr>
+</table>
