@@ -27,7 +27,7 @@ public class Unit implements Identifiable {
     public Unit(String charter, String name, String parentCharter) {
         this.charter = String.format("%03d", Integer.valueOf(charter));
         this.name = name;
-        this.parentCharter = parentCharter;
+        this.parentCharter = String.format("%03d", Integer.valueOf(parentCharter));;
     }
 
     public String getCharter() {

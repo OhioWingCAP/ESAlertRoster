@@ -1,0 +1,33 @@
+{
+  "name": "eDiscount",
+  "version": "2.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "description": "eDiscount UI update",
+  "author": "Joe Swislocki and Chris Kovacs",
+  "repository": {
+    "type": "git",
+    "url": "http://github.sherwin.com/Corp-IS-App-Dev/eDiscount2.git"
+  },
+  "devDependencies": {
+    "grunt": ">=0.4.5",
+    "grunt-browser-sync": ">=2.1.3",
+    "grunt-cli": ">=0.1.13",
+    "grunt-contrib-compass": ">=1.0.1",
+    "grunt-contrib-uglify": ">=0.7.0",
+    "grunt-contrib-watch": ">=0.6.1",
+    "grunt-karma": ">=0.12.1",
+    "grunt-sync": ">=0.2.2"
+  },
+  "dependencies": {
+    "jasmine-core": ">=2.3.4",
+    "karma": ">=0.13.14",
+    "karma-chrome-launcher": ">=0.2.1",
+    "karma-firefox-launcher": ">=0.1.6",
+    "karma-jasmine": ">=0.3.6",
+    "karma-ng-html2js-preprocessor": ">=0.2.0",
+    "karma-phantomjs-launcher": ">=0.2.1",
+    "matchdep": ">=0.3.0",
+    "phantomjs": "1.9.19"
+  }
+}

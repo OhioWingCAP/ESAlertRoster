@@ -26,7 +26,6 @@ import javax.annotation.PostConstruct;
                 DataSourceAutoConfiguration.class
         }
 )
-@EnableWebMvc
 @ComponentScan(basePackages = {"gov.cap.ohwg.es.alertroster"})
 public class OhwgEsAlertRosterApplication {
 
