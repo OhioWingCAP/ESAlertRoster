@@ -1,18 +1,67 @@
 <html>
-    <head>
-        <title>OHWG ES Alert Roster Maintenance System</title>
-   </head>
-    <body ng-app="esAlertRoster">
-        <div ng-controller="MainController" ui-view>
+<head>
+    <title>OHWG ES Alert Roster Maintenance System</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body ng-app="esAlertRoster" role="document">
+<div class="container">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Ohio Wing Emergency Services - Resource Management System</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" placeholder="Email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                </form>
+            </div><!--/.navbar-collapse -->
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap-tpls.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
-        <script src="app/app.js"></script>
-        <script src="app/units/units.js"></script>
-        <script src="app/units/units.controller.js"></script>
-        <script src="app/resources/units.component.js"></script>
-    </body>
+    </nav>
+    <div ng-controller="MainController" ui-view class="container row">
+    </div>
+    <div class="well">
+        <footer>
+                <p>Warning: The information you are receiving is protected from interception or disclosure. Any person who
+                    intentionally intercepts or illegally uses, distributes, reproduces or discloses its contents is subject
+                    to the penalties set forth in 18 United States Code Section 2511 and/or related state and federal laws of the
+                    United States.</p>
+        </footer>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap-tpls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+<script src="app/app.js"></script>
+<script src="app/units/units.js"></script>
+<script src="app/units/units.controller.js"></script>
+<script src="app/resources/units.component.js"></script>
+</body>
 </html>

@@ -1,18 +1,21 @@
-<a ui-sref="units"><- Back to unit list</a>
-<hr>
-<table>
-    <tr><td>Charter</td><td>{{unit.charter}}</td></tr>
-    <tr><td>Name</td><td>{{unit.name}}</td></tr>
-    <tr><td>Subordinate to</td><td>{{unit.parentCharter}} {{unit.parent.name}}</td></tr>
-</table>
-<p class="sectionHeader">Alert Roster</p>
-<table>
-    <tr ng-repeat="person in unit.alertRoster">
-        <td>{{person.lastname}}></td>
-        <td>{{person.firstName}}</td>
-        <td>{{person.grade}}</td>
-        <td>{{person.capid}}</td>
-        <td>{{person.charter}}</td>
-        <td><p ng-repeat="phone in person.phoneNumbers">{{phone.type}} {{phone.phoneNumber}}</p></td>
-    </tr>
-</table>
+<div class="container">
+    <a ui-sref="units"><- Back to unit list</a>
+    <hr>
+    <h1><span class="label label-info">{{unit.charter}} {{unit.name}}</span></h1>
+    <div class="well">
+        <footer>
+            <p>Edit unit resource information below</p>
+        </footer>
+    </div>
+    <h2><span class="label label-primary">Alert Roster</span></h2>
+    <table class="table table-striped">
+        <tr ng-repeat="person in unit.alertRoster">
+            <td>{{person.lastname}}></td>
+            <td>{{person.firstName}}</td>
+            <td>{{person.grade}}</td>
+            <td>{{person.capid}}</td>
+            <td>{{person.charter}}</td>
+            <td><p ng-repeat="phone in person.phoneNumbers">{{phone.type}} {{phone.phoneNumber}}</p></td>
+        </tr>
+    </table>
+</div>
