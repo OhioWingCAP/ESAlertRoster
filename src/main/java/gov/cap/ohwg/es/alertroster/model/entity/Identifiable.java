@@ -4,5 +4,5 @@ package gov.cap.ohwg.es.alertroster.model.entity;
  * Created by ckovacs on 4/23/16.
  */
 public interface Identifiable {
-    String getId();
+    Long getId();
 }

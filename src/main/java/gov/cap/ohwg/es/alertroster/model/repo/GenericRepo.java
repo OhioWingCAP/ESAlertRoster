@@ -3,9 +3,10 @@ package gov.cap.ohwg.es.alertroster.model.repo;
 
 import com.google.appengine.api.datastore.*;
 import gov.cap.ohwg.es.alertroster.model.entity.Identifiable;
+import org.apache.commons.lang.ArrayUtils;
 
+import java.beans.Transient;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -80,12 +81,15 @@ public class GenericRepo<T extends Identifiable> {
         Entity entity = new Entity(type.getSimpleName(), pojo.getId());
         for(Field field : type.getDeclaredFields()) {
             field.setAccessible(true);
+            if(ArrayUtils.contains(field.getDeclaredAnnotations(), Transient.class)) {
+                continue;
+            }
             entity.setProperty(field.getName(), field.get(pojo));
         }
         return entity;
     }
 
-    public T get(String id) {
+    public T get(long id) {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         try {
             Entity entity = datastore.get(KeyFactory.createKey(type.getSimpleName(), id));
@@ -93,5 +97,20 @@ public class GenericRepo<T extends Identifiable> {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public List<T> getMatching(String name, String value) {
+        List<T> allItems = new ArrayList<>();
+        try {
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+            Query q = new Query(type.getSimpleName());
+            q.setFilter(new Query.FilterPredicate(name, Query.FilterOperator.EQUAL, value));
+            PreparedQuery pq = datastore.prepare(q);
+            mapEntities(pq.asIterable(), allItems);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return allItems;
     }
 }

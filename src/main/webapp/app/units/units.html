@@ -10,8 +10,10 @@
     </thead>
     <tbody>
         <tr ng-repeat="unit in units | orderBy:'charter' | filter:searchText">
-            <td><a ui-sref="unit({id: unit.charter})">{{unit.charter}}</a></td><td><a ui-sref="unit({id: unit.charter})">{{unit.name}}</a></td>
-            <td><a ui-sref="unit({id: unit.parentUnit.charter})">{{unit.parentUnit.name}}</a></td>
+            <td><a ui-sref="unit({id: unit.charter})">{{unit.charter}}</a></td><td><a ui-sref="unit({id: unit.id})">{{unit.name}}</a></td>
+            <td><a ui-sref="unit({id: unit.parent.id})">{{unit.parent.charter}} {{unit.parent.name}}</a></td>
+        </tr>
+        <tr>
             <td ng-hide="units">Loading...</td>
         </tr>
     </tbody>

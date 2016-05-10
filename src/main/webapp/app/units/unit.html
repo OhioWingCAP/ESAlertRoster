@@ -1,7 +1,9 @@
+<a ui-sref="units"><- Back to unit list</a>
+<hr>
 <table>
-    <tr><td>Charter</td><td><input ng-model="unit.charter"></td></tr>
-    <tr><td>Name</td><td><input ng-model="unit.name" size="50"></td></tr>
-    <tr><td>Subordinate to</td><td><input ng-model="unit.parentCharter" size="50"></td></tr>
+    <tr><td>Charter</td><td>{{unit.charter}}</td></tr>
+    <tr><td>Name</td><td>{{unit.name}}</td></tr>
+    <tr><td>Subordinate to</td><td>{{unit.parentCharter}} {{unit.parent.name}}</td></tr>
 </table>
 <p class="sectionHeader">Alert Roster</p>
 <table>

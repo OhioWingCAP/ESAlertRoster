@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,15 +18,16 @@ import java.util.List;
 @RequestMapping("/view/api/units")
 public class UnitsView {
 
-    private GenericRepo<Unit> unitRepo = new GenericRepo<>(Unit.class);
+    @Autowired
+    private UnitRepo unitRepo;
 
     @RequestMapping("")
     public ResponseEntity<List<Unit>> getAll(){
-        return ResponseEntity.ok(unitRepo.getAll());
+        return ResponseEntity.ok(unitRepo.getMatching("wing", "OH"));
     }
 
     @RequestMapping("/{id}")
-    public ResponseEntity<Unit> get(@PathVariable("id") String id) {
+    public ResponseEntity<Unit> get(@PathVariable("id") int id) {
         return ResponseEntity.ok(unitRepo.get(id));
     }
 }
