@@ -27,7 +27,7 @@ public class Unit implements Identifiable {
     private Date dateReceived;
     private String orgNotes;
 
-    private List<Person> alertRoster = new ArrayList<>();
+    private List<Long> alertRosterCapids = new ArrayList<>();
     private Unit parent;
 
     public Unit() {
@@ -43,19 +43,12 @@ public class Unit implements Identifiable {
         return String.format("%s-%s-%s", region, wing, unit);
     }
 
-    public String getParentCharter() {
-        if(parent == null) {
-            return "None";
-        }
-        return parent.getCharter();
+    public List<Long> getAlertRosterCapids() {
+        return alertRosterCapids;
     }
 
-    public List<Person> getAlertRoster() {
-        return alertRoster;
-    }
-
-    public void setAlertRoster(List<Person> alertRoster) {
-        this.alertRoster = alertRoster;
+    public void setAlertRosterCapids(List<Long> alertRosterCapids) {
+        this.alertRosterCapids = alertRosterCapids;
     }
 
     public Date getDateChartered() {
@@ -199,4 +192,5 @@ public class Unit implements Identifiable {
     public Unit getParent() {
         return parent;
     }
+    
 }

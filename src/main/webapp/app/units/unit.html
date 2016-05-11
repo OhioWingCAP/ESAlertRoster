@@ -1,7 +1,9 @@
 <div class="container">
     <a ui-sref="units"><- Back to unit list</a>
     <hr>
-    <h1><span class="label label-info">{{unit.charter}} {{unit.name}}</span></h1>
+    <div class="page-header">
+        <h1>{{unit.charter}} {{unit.name}} <br/><small>Resource Maintenance</small></h1>
+    </div>
     <div class="well">
         <footer>
             <p>Edit unit resource information below</p>
@@ -9,13 +11,25 @@
     </div>
     <h2><span class="label label-primary">Alert Roster</span></h2>
     <table class="table table-striped">
-        <tr ng-repeat="person in unit.alertRoster">
-            <td>{{person.lastname}}></td>
-            <td>{{person.firstName}}</td>
-            <td>{{person.grade}}</td>
-            <td>{{person.capid}}</td>
-            <td>{{person.charter}}</td>
+        <tr ng-repeat="member in unit.alertRoster">
+            <td>{{member.nameLast}}></td>
+            <td>{{member.nameFirst}}</td>
+            <td>{{member.rank}}</td>
+            <td>{{member.capid}}</td>
+            <td>{{member.unit.charter}}</td>
             <td><p ng-repeat="phone in person.phoneNumbers">{{phone.type}} {{phone.phoneNumber}}</p></td>
         </tr>
     </table>
+    <div class="modal fade" id="searchMember">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <ng-form name="findMember" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="resetSearch()">&times;</button>
+                        <h4 class="modal-title">Find a Member</h4>                    </div>
+                </ng-form>
+            </div>
+        </div>
+    </div>
 </div>

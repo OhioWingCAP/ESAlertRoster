@@ -1,6 +1,7 @@
 package gov.cap.ohwg.es.alertroster;
 
 import gov.cap.ohwg.es.alertroster.data.capwatch.GenericLoader;
+import gov.cap.ohwg.es.alertroster.model.Contact;
 import gov.cap.ohwg.es.alertroster.model.entity.Member;
 import gov.cap.ohwg.es.alertroster.model.entity.Unit;
 import gov.cap.ohwg.es.alertroster.model.repo.GenericRepo;
@@ -35,6 +36,8 @@ public class OhwgEsAlertRosterApplication {
 
     private GenericRepo<Member> memberRepo = new GenericRepo<>(Member.class);
 
+    private GenericRepo<Contact> contactRepo = new GenericRepo<>(Contact.class);;
+
     @Bean(name = "multipartResolver")
     public StandardServletMultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
@@ -47,13 +50,15 @@ public class OhwgEsAlertRosterApplication {
 
     @PostConstruct
     public void onApplicationEvent() {
-        new GenericLoader<Unit>(unitRepo, new String[]{"orgid", "region", "wing", "unit", "nextLevel", "name", "type",
+        new GenericLoader<>(unitRepo, new String[]{"orgid", "region", "wing", "unit", "nextLevel", "name", "type",
                 "dateChartered", "status", "scope", "usrID", "dateMod", "firstUsr", "dateCreated", "dateReceived",
                 "orgNotes"}, "/data/Organization.txt", Unit.class).load();
-        new GenericLoader<Member>(memberRepo, new String[]{"CAPID", "SSN", "NameLast", "NameFirst", "NameMiddle",
+        new GenericLoader<>(memberRepo, new String[]{"CAPID", "SSN", "NameLast", "NameFirst", "NameMiddle",
                 "NameSuffix", "Gender", "DOB", "Profession", "EducationLevel", "Citizen", "ORGID", "Wing", "Unit", "Rank",
                 "Joined", "Expiration", "OrgJoined", "UsrID", "DateMod", "LSCode", "Type", "RankDate", "Region",
                 "MbrStatus", "PicStatus", "PicDate", "CdtWaiver"}, "/data/Member.txt", Member.class).load();
+        new GenericLoader<>(contactRepo, new String[]{"CAPID", "Type", "Priority", "Contact", "UsrID", "DateMod",
+                "DoNotContact"}, "/data/MbrContact.txt", Contact.class).load();
     }
 
 }
