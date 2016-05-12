@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MemberRepo extends GenericRepo<Member> {
+
     public MemberRepo() {
         super(Member.class);
     }
+
 }

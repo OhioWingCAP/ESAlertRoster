@@ -4,10 +4,9 @@ import gov.cap.ohwg.es.alertroster.model.entity.Unit;
 import gov.cap.ohwg.es.alertroster.model.repo.GenericRepo;
 import gov.cap.ohwg.es.alertroster.model.repo.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,12 +21,20 @@ public class UnitsView {
     private UnitRepo unitRepo;
 
     @RequestMapping("")
-    public ResponseEntity<List<Unit>> getAll(){
+    public ResponseEntity<List<Unit>> getAll() {
         return ResponseEntity.ok(unitRepo.getMatching("wing", "OH"));
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Unit> get(@PathVariable("id") int id) {
         return ResponseEntity.ok(unitRepo.get(id));
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Void> save(@PathVariable("id") int id, @RequestBody Unit unit) {
+        unitRepo.save(unit);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
 }

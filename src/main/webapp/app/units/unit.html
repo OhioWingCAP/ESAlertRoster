@@ -9,17 +9,67 @@
             <p>Edit unit resource information below</p>
         </footer>
     </div>
-    <h2><span class="label label-primary">Alert Roster</span></h2>
-    <table class="table table-striped">
-        <tr ng-repeat="member in unit.alertRoster">
-            <td>{{member.nameLast}}></td>
-            <td>{{member.nameFirst}}</td>
-            <td>{{member.rank}}</td>
-            <td>{{member.capid}}</td>
-            <td>{{member.unit.charter}}</td>
-            <td><p ng-repeat="phone in person.phoneNumbers">{{phone.type}} {{phone.phoneNumber}}</p></td>
-        </tr>
-    </table>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2>Alert Roster</h2></div>
+        <div class="panel-body">
+            <div ng-repeat="member in unit.alertRoster">
+                <h3><button ng-click="remove(member)" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Remove</button> {{member.region}}-{{member.wing}}-{{member.unit}} {{member.rank}} {{member.nameFirst}} {{member.nameLast}}</h3>
+            </div>
+            <br/>
+            <button class="btn btn-primary" ng-click="showSearchModal('#searchMember', 'input-member-search')"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add New Member</button>
+        </div>
+        <button ng-click="save()" class="btn btn-success">Save</button>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h2>Non-ORMS (Member Owned) Equipment - Mission Ready</h2></div>
+        <div class="panel-body">
+            <label for="aircraft-ifr" class="col-md-2">Aircraft, IFR</label>
+            <input id="aircraft-ifr" ng-model="unit.aircraftIfr" placeholder="#" type="number" class="col-md-10"/>
+            <label for="aircraft-twin" class="col-md-2">Aircraft, Twin</label>
+            <input id="aircraft-twin" ng-model="unit.aircraftTwin" placeholder="#" type="number" class="col-md-10"/>
+            <label for="aircraft-helo" class="col-md-2">Helicopter</label>
+            <input id="aircraft-helo" ng-model="unit.helicopter" placeholder="#" type="number" class="col-md-10"/>
+            <hr class="col-md-12"/>
+            <label for="radio-vhf" class="col-md-2">Radio, VHF</label>
+            <input id="radio-vhf" ng-model="unit.radioVhf" placeholder="#" type="number" class="col-md-10"/>
+            <label for="radio-hf" class="col-md-2">Radio, HF</label>
+            <input id="radio-hf" ng-model="unit.radioHf" placeholder="#" type="number" class="col-md-10"/>
+            <label for="radio-ale" class="col-md-2">Radio, ALE</label>
+            <input id="radio-ale" ng-model="unit.radioAle" placeholder="#" type="number" class="col-md-10"/>
+            <label for="radio-repeater" class="col-md-2">Radio, Repeater</label>
+            <input id="radio-repeater" ng-model="unit.radioRepeater" placeholder="#" type="number" class="col-md-10"/>
+            <hr class="col-md-12"/>
+            <label for="vehicle-van" class="col-md-2">Vehicle, Van</label>
+            <input id="vehicle-van" ng-model="unit.van" placeholder="#" type="number" class="col-md-10"/>
+            <label for="vehicle-4wd" class="col-md-2">Vehicle, 4WD</label>
+            <input id="vehicle-4wd" ng-model="unit.vehicle4wd" placeholder="#" type="number" class="col-md-10"/>
+            <label for="vehicle-pickup" class="col-md-2">Vehicle, Pickup</label>
+            <input id="vehicle-pickup" ng-model="unit.pickup" placeholder="#" type="number" class="col-md-10"/>
+            <label for="vehicle-otherPov" class="col-md-2">Vehicle, Other POV</label>
+            <input id="vehicle-otherPov" ng-model="unit.otherPov" placeholder="#" type="number" class="col-md-10"/>
+            <label for="vehicle-snowMachine" class="col-md-2">Vehicle, Snow Machine</label>
+            <input id="vehicle-snowMachine" ng-model="unit.snowMachine" placeholder="#" type="number" class="col-md-10"/>
+            <label for="vehicle-powerBoat" class="col-md-2">Vehicle, Power Boat</label>
+            <input id="vehicle-powerBoat" ng-model="unit.powerBoat" placeholder="#" type="number" class="col-md-10"/>
+            <label for="vehicle-uas" class="col-md-2">Vehicle, UAS</label>
+            <input id="vehicle-uas" ng-model="unit.uas" placeholder="#" type="number" class="col-md-10"/>
+            <hr class="col-md-12"/>
+            <label for="other-digiCamera" class="col-md-2">Camera, Digital Still</label>
+            <input id="other-digiCamera" ng-model="unit.digiCamera" placeholder="#" type="number" class="col-md-10"/>
+            <label for="other-vidCamera" class="col-md-2">Camera, Digital Video</label>
+            <input id="other-vidCamera" ng-model="unit.vidCamera" placeholder="#" type="number" class="col-md-10"/>
+            <label for="other-realTimeTv" class="col-md-2">Real-time TV</label>
+            <input id="other-realTimeTv" ng-model="unit.realTimeTv" placeholder="#" type="number" class="col-md-10"/>
+            <label for="other-squadTent" class="col-md-2">Squad Tent</label>
+            <input id="other-squadTent" ng-model="unit.squadTent" placeholder="#" type="number" class="col-md-10"/>
+            <hr class="col-md-12"/>
+            <label for="other-df" class="col-md-2">DF</label>
+            <input id="other-df" ng-model="unit.df" placeholder="#" type="number" class="col-md-10"/>
+            <label for="other-generator" class="col-md-2">Generator</label>
+            <input id="other-generator" ng-model="unit.generator" placeholder="#" type="number" class="col-md-10"/>
+        </div>
+        <button ng-click="save()" class="btn btn-success">Save</button>
+    </div>
     <div class="modal fade" id="searchMember">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -27,7 +77,14 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                 ng-click="resetSearch()">&times;</button>
-                        <h4 class="modal-title">Find a Member</h4>                    </div>
+                        <h4 class="modal-title">Find a Member</h4>
+                        <input id="input-member-search" ng-model="memberSearch.input" placeholder="capid"/>
+                        <br/>
+                        <div ng-show="memberSearch.result.nameLast != null">
+                            <button ng-click="add(memberSearch.result)" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add</button>
+                            <h3>{{memberSearch.result.region}}-{{memberSearch.result.wing}}-{{memberSearch.result.unit}} {{memberSearch.result.rank}} {{memberSearch.result.nameFirst}} {{memberSearch.result.nameLast}}</h3>
+                        </div>
+                    </div>
                 </ng-form>
             </div>
         </div>

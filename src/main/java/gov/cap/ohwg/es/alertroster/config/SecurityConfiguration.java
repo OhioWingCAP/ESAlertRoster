@@ -90,6 +90,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("app/img/**").permitAll()
                 .antMatchers("/_ah/login").permitAll()
+                .antMatchers("/view/api/auth/*").permitAll()
                 .anyRequest().authenticated()
 //                .antMatchers("/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
 //                .and()

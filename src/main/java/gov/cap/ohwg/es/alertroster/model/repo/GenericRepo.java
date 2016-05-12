@@ -6,7 +6,9 @@ import gov.cap.ohwg.es.alertroster.model.entity.Identifiable;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.beans.Transient;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -81,12 +83,27 @@ public class GenericRepo<T extends Identifiable> {
         Entity entity = new Entity(type.getSimpleName(), pojo.getId());
         for(Field field : type.getDeclaredFields()) {
             field.setAccessible(true);
-            if(ArrayUtils.contains(field.getDeclaredAnnotations(), Transient.class)) {
+            if(isTransient(field)) {
                 continue;
             }
             entity.setProperty(field.getName(), field.get(pojo));
         }
         return entity;
+    }
+
+    private boolean isTransient(Field field) {
+        String fieldName = field.getName();
+        try {
+            Method method = type.getMethod("get" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1));
+            for(Annotation annotation : method.getDeclaredAnnotations()) {
+                if(annotation instanceof Transient) {
+                    return ((Transient)annotation).value();
+                }
+            }
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+        return false;
     }
 
     public T get(long id) {
