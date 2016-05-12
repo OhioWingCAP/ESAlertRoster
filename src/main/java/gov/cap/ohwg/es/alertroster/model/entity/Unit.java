@@ -1,5 +1,8 @@
 package gov.cap.ohwg.es.alertroster.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import gov.cap.ohwg.es.alertroster.model.projection.Summary;
+
 import java.beans.Transient;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class Unit implements Identifiable {
     private Date dateCreated;
     private Date dateReceived;
     private String orgNotes;
+    private boolean hasAlertRoster;
 
     private List<Long> alertRosterCapids = new ArrayList<>();
     private Unit parent;
@@ -33,6 +37,7 @@ public class Unit implements Identifiable {
     public Unit() {
     }
 
+    @JsonView(Summary.class)
     public String getCharter() {
         try {
             int intUnit = Integer.parseInt(unit);
@@ -91,6 +96,7 @@ public class Unit implements Identifiable {
         this.firstUsr = firstUsr;
     }
 
+    @JsonView(Summary.class)
     public String getName() {
         return name;
     }
@@ -107,6 +113,7 @@ public class Unit implements Identifiable {
         this.nextLevel = nextLevel;
     }
 
+    @JsonView(Summary.class)
     public long getOrgid() {
         return orgid;
     }
@@ -180,6 +187,7 @@ public class Unit implements Identifiable {
     }
 
     @Override
+    @JsonView(Summary.class)
     public Long getId() {
         return getOrgid();
     }
@@ -189,8 +197,19 @@ public class Unit implements Identifiable {
     }
 
     @Transient
+    @JsonView(Summary.class)
     public Unit getParent() {
         return parent;
     }
-    
+
+    @Transient
+    @JsonView(Summary.class)
+    public boolean getHasAlertRoster() {
+        return alertRosterCapids != null && !alertRosterCapids.isEmpty();
+    }
+
+    public void setHasAlertRoster(boolean hasAlertRoster) {
+        // ignore
+    }
+
 }

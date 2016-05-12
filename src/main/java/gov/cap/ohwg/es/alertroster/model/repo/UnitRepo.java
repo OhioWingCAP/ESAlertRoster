@@ -1,8 +1,13 @@
 package gov.cap.ohwg.es.alertroster.model.repo;
 
+import gov.cap.ohwg.es.alertroster.model.entity.DutyPosition;
+import gov.cap.ohwg.es.alertroster.model.entity.Member;
 import gov.cap.ohwg.es.alertroster.model.entity.Unit;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,23 +16,43 @@ import java.util.List;
 @Component
 public class UnitRepo extends GenericRepo<Unit> {
 
+    @Autowired
+    private MemberRepo memberRepo;
+
+    @Autowired
+    private DutyPositionRepo dutyPositionRepo;
+
+    @Autowired
+    private AuthUtils authUtils;
+
     public UnitRepo() {
         super(Unit.class);
     }
 
     @Override
     public Unit get(long id) {
-        return parent(super.get(id));
+        Unit unit = parent(super.get(id));
+        return authUtils.checkAuth(unit.getOrgid(), unit);
     }
 
     @Override
     public List<Unit> getAll() {
-        return parent(super.getAll());
+        return parent(filterAuthorized(super.getAll()));
+    }
+
+    private List<Unit> filterAuthorized(List<Unit> units) {
+        List<Unit> authorizedUnits = new ArrayList<>();
+        for(Unit unit : units) {
+            if(authUtils.checkAuth(unit.getOrgid(), unit) != null) {
+                authorizedUnits.add(unit);
+            }
+        }
+        return authorizedUnits;
     }
 
     @Override
-    public List<Unit> getMatching(String name, String value) {
-        return parent(super.getMatching(name, value));
+    public List<Unit> getMatching(String name, Object value) {
+        return parent(filterAuthorized(super.getMatching(name, value)));
     }
 
     private Unit parent(Unit unit) {

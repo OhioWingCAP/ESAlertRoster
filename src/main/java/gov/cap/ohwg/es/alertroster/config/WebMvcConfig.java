@@ -1,6 +1,7 @@
 package gov.cap.ohwg.es.alertroster.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @EnableWebMvc
+@EnableWebMvcSecurity
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override

@@ -12,15 +12,14 @@
                     method: 'POST',
                     url: 'view/api/auth/loginUrl'
                 },
-                'logoutUrl': {
-                    method: 'POST',
-                    url: 'view/api/auth/logoutUrl',
-                    responseType: ""
-                },
                 'isLoggedIn': {
                     method: 'GET',
-                    action: 'view/api/auth/isLoggedIn',
+                    url: 'view/api/auth/isLoggedIn',
                     responseType: ""
+                },
+                'logout' : {
+                    method: 'GET',
+                    url: 'view/api/auth/logout'
                 }
             });
         }]);

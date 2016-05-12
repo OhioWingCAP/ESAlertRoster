@@ -18,6 +18,7 @@ public class GaeUser implements Serializable, UserDetails {
     private final String surname;
     private Set<AppRole> authorities = new HashSet<>();
     private final boolean enabled;
+    private Set<Long> unitAccess = new HashSet<>();
 
     public GaeUser(String userId, String email, String nickname, String forename, String surname, boolean enabled) {
         this.userId = userId;
@@ -68,6 +69,10 @@ public class GaeUser implements Serializable, UserDetails {
 
     public String getUserId() {
         return userId;
+    }
+
+    public Set<Long> getUnitAccess() {
+        return unitAccess;
     }
 
     @Override

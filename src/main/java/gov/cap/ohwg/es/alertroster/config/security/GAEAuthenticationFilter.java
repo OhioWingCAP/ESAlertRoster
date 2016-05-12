@@ -50,11 +50,6 @@ public class GaeAuthenticationFilter extends GenericFilterBean {
                     authentication = authenticationManager.authenticate(token);
                     // Setup the security context
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    // Send new users to the registration page.
-                    if (authentication.getAuthorities().contains(AuthoritiesConstants.NEW_USER)) {
-                        ((HttpServletResponse) response).sendRedirect(REGISTRATION_URL);
-                        return;
-                    }
                 } catch (AuthenticationException e) {
                     // Authentication information was rejected by the authentication manager
                     failureHandler.onAuthenticationFailure((HttpServletRequest)request, (HttpServletResponse)response, e);

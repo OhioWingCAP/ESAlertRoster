@@ -39,20 +39,34 @@
                             focus(id);
                         }, 500);
                     };
+
+                    function contains(array, item) {
+                        if(array == null) {
+                            return false;
+                        }
+                        return array.some(function(arrayItem){
+                            return item.id == arrayItem.id;
+                        });
+                    }
                     
                     $scope.$watch('memberSearch.input', function(newValue){
                         if(newValue && newValue.length > 3) {
-                            $scope.memberSearch.result = Member.get({id: newValue});
+                            $scope.memberSearch.result = Member.query({query: newValue});
+                        } else {
+                            $scope.memberSearch.result = null;
                         }
                     });
 
                     $scope.add = function(member) {
-                        $scope.unit.alertRoster.push(member);
-                        if($scope.unit.alertRosterCapids == null) {
-                            $scope.unit.alertRosterCapids = [];
+                        if(!contains($scope.unit.alertRoster,member)) {
+                            $scope.unit.alertRoster.push(member);
+                            if($scope.unit.alertRosterCapids == null) {
+                                $scope.unit.alertRosterCapids = [];
+                            }
+                            $scope.unit.alertRosterCapids.push(member.capid);
+                            $scope.save();
                         }
-                        $scope.unit.alertRosterCapids.push(member.capid);
-                        $scope.save();
+                        $scope.resetSearch();
                         $('#searchMember').modal('hide');
                     };
 
@@ -72,6 +86,7 @@
                     // resest search
                     $scope.resetSearch = function () {
                         $scope.memberSearchMessage = "Your results are empty.";
+                        $scope.memberSearch.result = null;
                         $scope.memberSearch.input = "";
                     };
                 }]); // UnitsController

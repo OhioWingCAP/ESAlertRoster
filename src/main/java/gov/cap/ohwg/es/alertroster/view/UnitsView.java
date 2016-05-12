@@ -1,6 +1,8 @@
 package gov.cap.ohwg.es.alertroster.view;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import gov.cap.ohwg.es.alertroster.model.entity.Unit;
+import gov.cap.ohwg.es.alertroster.model.projection.Summary;
 import gov.cap.ohwg.es.alertroster.model.repo.GenericRepo;
 import gov.cap.ohwg.es.alertroster.model.repo.UnitRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class UnitsView {
     private UnitRepo unitRepo;
 
     @RequestMapping("")
+    @JsonView(Summary.class)
     public ResponseEntity<List<Unit>> getAll() {
         return ResponseEntity.ok(unitRepo.getMatching("wing", "OH"));
     }

@@ -12,20 +12,23 @@
     app.controller("MainController",
         ["$scope", "$rootScope", "$state", "$http", "Auth", "$window",
         function ($scope, $rootScope, $state, $http, Auth, $window) {
-            $scope.loggedIn = Auth.isLoggedIn();
-            $scope.loggedIn.$promise.then(function(){
-                if(!$scope.loggedIn == 'anonymousUser') {
+            $scope.loggedIn = false;
+            $scope.user = Auth.get();
+            $scope.user.$promise.then(function(){
+                if($scope.user.userId == 'anonymousUser' || $scope.user.userId == '' || $scope.user.userId == null) {
                     $scope.loginUrl.$promise.then(function(){
                         $window.location.href=$scope.loginUrl.url;
                     });
+                } else {
+                    $scope.loggedIn = true;
                 }
             });
-            $scope.user = Auth.get();
-            $scope.loginUrl = Auth.loginUrl({}, $window.location.href);
+            $scope.loginUrl = Auth.loginUrl({}, "/");
             $scope.loginUrl.$promise.then(function(loginUrl){
                 $scope.logoutUrl = Auth.logoutUrl({}, loginUrl.url);
             });
             $scope.logout = function() {
+                Auth.logout();
                 $window.location.href = $scope.logoutUrl.url;
             };
 

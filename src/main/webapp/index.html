@@ -33,7 +33,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <div class="navbar-form navbar-right">
-                    <a class="nav-link" ng-href="/{{loginUrl}}" ng-if="!loggedIn">log in</a>
+                    <a class="nav-link" ng-href="{{loginUrl.url}}" ng-if="!loggedIn">log in</a>
                     <div ng-if="loggedIn">
                         <button ng-click="logout()" class="nav-link">Welcome, {{user.email}}! (logout)</button>
                     </div>

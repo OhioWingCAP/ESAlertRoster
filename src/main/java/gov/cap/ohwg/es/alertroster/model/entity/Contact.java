@@ -1,6 +1,4 @@
-package gov.cap.ohwg.es.alertroster.model;
-
-import gov.cap.ohwg.es.alertroster.model.entity.Identifiable;
+package gov.cap.ohwg.es.alertroster.model.entity;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -75,17 +73,6 @@ public class Contact implements Identifiable {
 
     @Override
     public Long getId() {
-        long hashCode = 1;
-        for(Field f : Contact.class.getDeclaredFields()) {
-            f.setAccessible(true);
-            Object obj = null;
-            try {
-                obj = f.get(this);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-            hashCode = 31*hashCode + (obj==null ? 0 : obj.hashCode());
-        }
-        return hashCode;
+        return IdUtil.generateHash(this);
     }
 }
